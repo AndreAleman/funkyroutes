@@ -22,9 +22,9 @@ void main() async {
     print(house); // Print each house in the list
   });
 
-
+  sendData();
   runApp(MyApp()); // Run the app
-  requestLocationPermission(); // Request location permission
+  //requestLocationPermission(); // Request location permission
 }
 
 
