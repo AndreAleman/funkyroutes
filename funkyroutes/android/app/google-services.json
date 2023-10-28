@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "882751944221",
+    "project_id": "davidsworkdriveapp",
+    "storage_bucket": "davidsworkdriveapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882751944221:android:50f2e2e9d53f9993fe78f4",
+        "android_client_info": {
+          "package_name": "com.anipopplaza.funkyroutes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5aNkNi3COQE3tY3L3cfZ7Re1rwqN2pnY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
