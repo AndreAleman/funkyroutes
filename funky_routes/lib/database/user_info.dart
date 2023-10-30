@@ -56,25 +56,41 @@ void sendData() async {
 }
 
 
+void getHouses() async {
+  var url = Uri.parse('http://10.0.2.2:5000/get_houses');
 
-// Future<void> receiveData() async {
-//   final url = Uri.parse('http://127.0.0.1:5000/receive_user_data');
-  
-//   // Await the getUserData() function call to get the actual data
-//   final userData = await getUserData('1');
-//   final houses = userData['houses'];
-  
-//   final response = await http.post(
-//     url,
-//     body: {
-//       'username': '1',
-//       'houses': jsonEncode(houses), // Assuming houses is a List<Map<String, dynamic>>
-//     },
-//   );
+  var response = await http.get(url);
 
-//   if (response.statusCode == 200) {
-//     print('Data sent successfully');
-//   } else {
-//     print('Failed to send data. Error: ${response.statusCode}');
-//   }
-// }
+  if (response.statusCode == 200) {
+    // Successful response
+    var housesData = response.body;
+    print(housesData);
+    // You can parse the housesData JSON string if needed
+  } else {
+    // Error response
+    print('Failed to get houses data. Error code: ${response.statusCode}');
+  }
+}
+
+
+void getHelloWorld(String message) async {
+  // Define the URL of the Flask server
+  String url = 'http://10.0.2.2:5000/hello';
+
+  // Build the URL with query parameters
+  Uri uri = Uri.parse(url).replace(queryParameters: {
+    'message': message,
+  });
+
+  // Make a GET request to the Flask server
+  http.Response response = await http.get(uri);
+
+  // Check the status code of the response
+  if (response.statusCode == 200) {
+    // If the status code is 200, print the response body
+    print('Response: ${response.body}');
+  } else {
+    // If the status code is not 200, print an error message
+    print('HELLODIDNTWORK ${response.statusCode}');
+  }
+}

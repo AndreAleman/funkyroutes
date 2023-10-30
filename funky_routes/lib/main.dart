@@ -23,7 +23,10 @@ void main() async {
   });
 
   sendData();
+  //sendDataWithGet();
+  getHelloWorld('helloworld');
   runApp(MyApp()); // Run the app
+  getHouses();
   //requestLocationPermission(); // Request location permission
 }
 
