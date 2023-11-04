@@ -16,19 +16,20 @@ void main() async {
 
   final userData = await getUserData('1'); // Get user data
   final houses = userData['houses']; // Get the list of houses from the user data
+  final home = userData['home'];
 
-  print('List of Houses:'); // Print a message
+  print('List of Houses in main function:'); // Print a message
   houses.forEach((house) {
     print(house); // Print each house in the list
   });
 
-  sendData();
-  //sendDataWithGet();
-  getHelloWorld('helloworld');
-  runApp(MyApp()); // Run the app
+  print('this is main home: $home');
+  sendData(userData); // Pass the userData to the sendData function
   getHouses();
-  //requestLocationPermission(); // Request location permission
+
+  runApp(MyApp()); // Run the app
 }
+
 
 
 //changing this line

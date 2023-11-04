@@ -3,31 +3,40 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 
-// Function to get user data from Firestore
 Future<Map<String, dynamic>> getUserData(String userId) async {
+  print('start get user');
+
   // Get the user document from Firestore
-  final userDoc = await FirebaseFirestore.instance.collection('Users').doc(userId).get();
+  final userDoc =
+      await FirebaseFirestore.instance.collection('Users').doc(userId).get();
   // Get the houses documents from Firestore
-  final housesSnap = await FirebaseFirestore.instance.collection('Users').doc(userId).collection('Houses').get();
+  final housesSnap = await FirebaseFirestore.instance
+      .collection('Users')
+      .doc(userId)
+      .collection('Houses')
+      .get();
 
   // Extract the home field from the user document
-  final home = userDoc.data()?['home'];
+  final home = userDoc.data()?['Home'];
   // Extract the Address field from each house document and convert it to a list
-  final houses = housesSnap.docs.map((doc) => doc.data()['Address']).toList();
+  final houses =
+      housesSnap.docs.map((doc) => doc.data()['Address']).toList();
 
   // Return the home and houses data as a map
+  print('inside the info_dart $home');
+  print('end get user');
   return {'home': home, 'houses': houses};
 }
 
 // Function to send data to the Flask server
-void sendData() async {
+void sendData(Map<String, dynamic> userData) async {
+  print('start senddata');
   // Define the URL of the Flask server
   String url = 'http://10.0.2.2:5000/receive_user_data';
   // Define the user ID
   String userId = '1';
-  // Get the user data from Firestore
-  Map<String, dynamic> userData = await getUserData(userId);
 
+  print('after userrrrrrr');
   // Make a POST request to the Flask server
   http.Response response = await http.post(
     // Parse the URL
@@ -42,6 +51,8 @@ void sendData() async {
       'username': userId,
       // Send the list of houses as the addresses
       'addresses': userData['houses'],
+
+      'home' : userData['home'],
     }),
   );
 
@@ -53,6 +64,7 @@ void sendData() async {
     // If the status code is not 200, print an error message
     print('Failed to send data. Error: ${response.statusCode}');
   }
+  print('end get data');
 }
 
 
@@ -64,13 +76,14 @@ void getHouses() async {
   if (response.statusCode == 200) {
     // Successful response
     var housesData = response.body;
-    print(housesData);
+    print('it worked fa****s');
     // You can parse the housesData JSON string if needed
   } else {
     // Error response
     print('Failed to get houses data. Error code: ${response.statusCode}');
   }
 }
+
 
 
 void getHelloWorld(String message) async {
@@ -94,3 +107,6 @@ void getHelloWorld(String message) async {
     print('HELLODIDNTWORK ${response.statusCode}');
   }
 }
+
+
+////HOW TO GET HOME FROM DATA
