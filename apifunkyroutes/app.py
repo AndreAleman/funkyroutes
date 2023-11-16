@@ -6,45 +6,64 @@ from optimize import optimize_route
 
 app = Flask(__name__) # Creating a Flask web server from the Flask module
 
-
 gmaps = googlemaps.Client(key=api_key) # Creating a googlemaps client object with the api_key
+
+def print_keys(nested_dict, parent_key=''):
+  for key, value in nested_dict.items():
+      full_key = f"{parent_key}.{key}" if parent_key else key
+      print('  ' * full_key.count('.') + full_key, type(value))
+      if isinstance(value, dict):
+          print_keys(value, full_key)
 
 @app.route('/receive_user_data', methods=['POST', 'GET'])
 def receive_user_data():
 
-    global houses_data
-    global depot_data
-    global all_houses
-    
-    data = request.json
-    username = data['username']
-    user_addresses = data['addresses']
-    user_home = data['home']
-    depot_data = f'{user_home["Street"]}, {user_home["City"]}, {user_home["State"]}'
+   global houses_data
+   global depot_data
+   global all_houses
+   
+   data = request.json
+   username = data['username']
+   user_addresses = data['addresses']
+   user_home = data['home']
+   depot_data = f'{user_home["Street"]}, {user_home["City"]}, {user_home["State"]}'
 
-    # houses_data = json.dumps(user_addresses)
-    houses_data = [f'{address["Street"]}, {address["City"]}, {address["State"]}' for address in user_addresses]
+   houses_data = [f'{address["Street"]}, {address["City"]}, {address["State"]}' for address in user_addresses]
 
-    print(f'Username: {username}\n')
-    print(f'Home: {depot_data}\n')
-    print('All Addresses:')
-    
-    for address in houses_data:
-        print(address)
-    
-    all_houses = [depot_data] + houses_data
+   print(f'Username: {username}\n')
+   print(f'Home: {depot_data}\n')
+   print('All Addresses:')
+   
+   for address in houses_data:
+       print(address)
+   
+   all_houses = [depot_data] + houses_data
 
-    returned_matrix = gmaps.distance_matrix(all_houses, all_houses)
+   returned_matrix = gmaps.distance_matrix(all_houses, all_houses)
+   print("before optimize route")
+   print("\n")
 
+   length = len(returned_matrix['rows'])
+   print(f'length: {length}')
+   print("Structure of returned_matrix:")
+   print_keys(returned_matrix)
+   print("\n")
 
-    optimized_route = optimize_route(returned_matrix, all_houses)
+   optimized_route = optimize_route(returned_matrix, all_houses)
 
-
-    print("Optimized Route:")
-    for i, address in enumerate(optimized_route):
+   print("Optimized Route:")
+   for i, address in enumerate(optimized_route):
         print(f"House {i}: {address}")
 
-    return 'Data received', 200
+
+
+
+
+   return 'Data received', 200
+
+
+
+
 
 @app.route('/get_houses', methods=['GET'])
 def get_houses():
