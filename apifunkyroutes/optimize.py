@@ -15,7 +15,9 @@ def optimize_route(returned_matrix, all_houses):
    def distance_callback(from_index, to_index):
        from_node = manager.IndexToNode(from_index)
        to_node = manager.IndexToNode(to_index)
-       return returned_matrix['rows'][from_node]['elements'][to_node]['duration']['value']
+       #print('distance callback')
+       #print(returned_matrix['rows'][from_node]['elements'][to_node]['duration']['value'])
+       return returned_matrix['rows'][from_node]['elements'][to_node]['distance']['value']
 
 
    transit_callback_index = routing.RegisterTransitCallback(distance_callback)
@@ -29,7 +31,7 @@ def optimize_route(returned_matrix, all_houses):
    # Set the search parameters
    search_parameters = pywrapcp.DefaultRoutingSearchParameters()
    search_parameters.first_solution_strategy = (
-       routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+       routing_enums_pb2.FirstSolutionStrategy.PATH_MOST_CONSTRAINED_ARC)
    
    # Solve the problem
    solution = routing.SolveWithParameters(search_parameters)

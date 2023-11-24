@@ -41,6 +41,7 @@ def receive_user_data():
 
    returned_matrix = gmaps.distance_matrix(all_houses, all_houses)
    print("before optimize route")
+   print(returned_matrix)
    print("\n")
 
    length = len(returned_matrix['rows'])

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ListSquare extends StatelessWidget{
+class ListSquare extends StatelessWidget {
+ final String house;
 
+ ListSquare({required this.house});
 
-  @override 
-  Widget build(BuildContext context){
-    return 
-      Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: 
-          Container(
-            height: 200,
-            color: Colors.purple[200],
-          ),
-    );  
-  }
+ @override
+ Widget build(BuildContext context) {
+   return ListTile(
+     title: Text(house),
+   );
+ }
 }
