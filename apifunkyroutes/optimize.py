@@ -3,7 +3,7 @@ from ortools.constraint_solver import pywrapcp
 
 def optimize_route(returned_matrix, all_houses):
    
-   print(f'All OPTIMIZEHouses: {all_houses}')
+   # print(f'All OPTIMIZEHouses: {all_houses}')
 
    length = len(returned_matrix['rows'])
 
@@ -41,7 +41,7 @@ def optimize_route(returned_matrix, all_houses):
    index = routing.Start(0)
    while not routing.IsEnd(index):
        node_index = manager.IndexToNode(index)
-       optimized_route.append(all_houses[node_index - 1])
+       optimized_route.append(all_houses[node_index])
        index = solution.Value(routing.NextVar(index))
 
    return optimized_route

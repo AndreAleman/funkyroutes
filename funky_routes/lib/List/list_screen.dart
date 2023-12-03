@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:funky_routes/List/list_themes.dart';
 import 'package:funky_routes/main.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:funky_routes/Home/welcome.dart';
+import 'package:funky_routes/database/user_info.dart';
+import 'package:funky_routes/location/location.dart';
+import 'package:funky_routes/routes.dart';
+import 'package:funky_routes/List/list_screen.dart';
+import 'package:funky_routes/Home/login.dart';
+import 'package:funky_routes/Home/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 
@@ -20,10 +30,24 @@ class ListScreen extends StatelessWidget{
     }
   }
 
- @override
- Widget build(BuildContext context){
-   return Scaffold(
-     body: FutureBuilder<List<String>>(
+@override
+Widget build(BuildContext context){
+ return Scaffold(
+   appBar: AppBar(
+     title: Text('Your Title'),
+     actions: <Widget>[
+       IconButton(
+         icon: Icon(Icons.exit_to_app), // Use an appropriate icon
+         onPressed: () {
+           // Use this to Log Out user
+           FirebaseAuth.instance.signOut();
+         },
+       ),
+     ],
+   ),
+   body: Padding(
+     padding: const EdgeInsets.all(16.0),
+     child: FutureBuilder<List<String>>(
        future: fetchRoutes(),
        builder: (context, snapshot) {
          if (snapshot.hasData) {
@@ -40,6 +64,7 @@ class ListScreen extends StatelessWidget{
          return const CircularProgressIndicator();
        },
      ),
-   );
- }
+   ),
+ );
+}
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:funky_routes/Home/welcome.dart';
 import 'firebase_options.dart';
 import 'package:funky_routes/database/user_info.dart';
 import 'package:funky_routes/location/location.dart';
 import 'package:funky_routes/routes.dart';
 import 'package:funky_routes/List/list_screen.dart';
-
-
+import 'package:funky_routes/Home/login.dart';
+import 'package:funky_routes/Home/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,14 +37,17 @@ void main() async {
 //changing this line
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+ const MyApp({Key? key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: appRoutes, // Set the app routes
-    );
-  }
+ @override
+ Widget build(BuildContext context) {
+  return MaterialApp(
+    initialRoute: '/', // Set the default route
+    routes: appRoutes, // Set the app routes
+    debugShowCheckedModeBanner: false,
+    title: 'Flutter X Firebase',
+  );
+ }
 }
 
 

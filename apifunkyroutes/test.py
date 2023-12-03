@@ -1,31 +1,21 @@
-from optimize import optimize_route
+from bs4 import BeautifulSoup
+import requests
 
-# Define the distance matrix
-returned_matrix = {
-    'elements': [
-        {'duration': {'value': 0}},
-        {'duration': {'value': 10}},
-        {'duration': {'value': 20}},
-        {'duration': {'value': 30}},
-        {'duration': {'value': 40}},
-        {'duration': {'value': 50}},
-        {'duration': {'value': 60}}
-    ]
-}
+# Define the URL of the Niceguys Pizza homepage
+homepage_url = "https://niceguyspizza.com/"
 
-# Define the list of addresses
-all_houses = [
-    'House 0',
-    'House 1',
-    'House 2',
-    'House 3',
-    'House 4',
-    'House 5',
-    'House 6'
-]
+# Send an HTTP GET request to the homepage URL
+response = requests.get(homepage_url)
 
-# Call the optimize_route function
-optimized_route = optimize_route(returned_matrix, all_houses)
+# Parse the HTML content using BeautifulSoup
+soup = BeautifulSoup(response.content, "html.parser")
 
-# Print the optimized route
-print(optimized_route)
+# Find the specials section
+specials = soup.find("section", class_="specials")
+
+# Extract the special event details
+special_event_details = specials.find_all("p", class_="event-detail")
+
+# Loop through the special event details and print them
+for detail in special_event_details:
+ print(detail.text.strip())
