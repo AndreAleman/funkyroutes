@@ -34,11 +34,16 @@ class _AuthScreenState extends State<AuthScreen>{
             //Get inputs from the controllers
             final email = _emailController.value.text;
             final password = _passwordController.value.text;
-            //Check if is login or register
-            if(_isLogin) {
-                await Auth().signInWithEmailAndPassword(email, password);
-            } else {
-                await Auth().registerWithEmailAndPassword(email, password);
+
+            try{
+              await _auth.signInWithEmailAndPassword(email, password);
+
+            } on FirebaseAuthException catch (e){
+              if(e.code == 'user-not-found'){
+                await _auth.registerWithEmailAndPassword(email);
+              } else{
+                print(e);
+              }
             }
         }
     }
@@ -89,9 +94,8 @@ class _AuthScreenState extends State<AuthScreen>{
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                String password = _passwordController.text;
                 String email = _emailController.text;
-                _auth.registerWithEmailAndPassword(email, password);
+                handleSubmit();
                 //navigate to the /DriveList
                 Navigator.push(
                   context,
@@ -99,7 +103,7 @@ class _AuthScreenState extends State<AuthScreen>{
                 );
               },
               //Conditionally show the button label
-              child: Text(_isLogin ? 'Login' :'Register'),
+              child: Text(_isLogin ? 'Login' : 'Register'),
             ),
           ]),
       )

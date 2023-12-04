@@ -5,7 +5,7 @@ from config import api_key # Importing api_key from config.py
 from optimize import optimize_route
 
 app = Flask(__name__) # Creating a Flask web server from the Flask module
-
+app.debug = True
 gmaps = googlemaps.Client(key=api_key) # Creating a googlemaps client object with the api_key
 
 def print_keys(nested_dict, parent_key=''):
@@ -41,7 +41,7 @@ def receive_user_data():
 
    returned_matrix = gmaps.distance_matrix(all_houses, all_houses)
    print("before optimize route")
-   print(returned_matrix)
+   #print(returned_matrix)
    print("\n")
 
    length = len(returned_matrix['rows'])
@@ -69,6 +69,7 @@ def receive_user_data():
 @app.route('/get_houses', methods=['GET'])
 def get_houses():
     addresses = all_houses
+    print('All Houses:')
 
 
     response = f'Home: {all_houses}<br>'

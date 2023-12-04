@@ -16,16 +16,14 @@ class Auth {
 
  // Define a method to register a new user with email and password
  Future<void> registerWithEmailAndPassword(
-   String email, String password) 
+   String email) 
    async{
      // Try to register the user
      try{
     CollectionReference users = FirebaseFirestore.instance.collection('Users');
-    FirebaseAuth auth = FirebaseAuth.instance;
     return users
       .add({
         'Email': email,
-        'Password': password,
         'Home' : ''
       })
       .then((value) => print("User Added"))
@@ -46,36 +44,29 @@ class Auth {
    }
 
  // Define a method to sign in an existing user with email and password
- Future<void> signInWithEmailAndPassword(String email, String password) async {
-   // Try to sign in the user
-   try {
-       // Use FirebaseAuth to sign in the user with email and password
-    //after registering the user create a collection
-    CollectionReference users = FirebaseFirestore.instance.collection('Users');
-    FirebaseAuth auth = FirebaseAuth.instance;
-    return users
-      .add({
-        'Email': email,
-        'Password': password,
-        'Home' : ''
-      })
-      .then((value) => print("User Added"))
-      .catchError((error) => print("Failed to add user: $error"));
-
-   } on FirebaseAuthException catch (e) {
-       // If there's an error, check the error code
-       if (e.code == 'user-not-found') {
-           // If the user is not found, print an error message
-           print('No user found for that email.');
-       } else if (e.code == 'wrong-password') {
-           // If the password is wrong, print an error message
-           print('Wrong password provided for that user.');
-       }
-   } catch (e) {
-       // If the error is not a FirebaseAuthException, print the error
-       print(e);
+Future<void> signInWithEmailAndPassword(String email, String password) async {
+ // Try to sign in the user
+ try {
+   // Use FirebaseAuth to sign in the user with email and password
+   UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+     email: email,
+     password: password,
+   );
+   print('User signed in: ${userCredential.user?.uid}');
+ } on FirebaseAuthException catch (e) {
+   // If there's an error, check the error code
+   if (e.code == 'user-not-found') {
+     // If the user is not found, print an error message
+     print('No user found for that email.');
+   } else if (e.code == 'wrong-password') {
+     // If the password is wrong, print an error message
+     print('Wrong password provided for that user.');
    }
+ } catch (e) {
+   // If the error is not a FirebaseAuthException, print the error
+   print(e);
  }
+}
 
 
 }

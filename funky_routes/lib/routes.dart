@@ -17,5 +17,6 @@ var appRoutes = {
    },
  ),
  '/authscreen': (context) => AuthScreen(),
- '/DriveList': (context) => ListScreen()
+ '/DriveList': (context) => ListScreen(),
+  '/welcomescreen': (context) => WelcomeScreen()
 };

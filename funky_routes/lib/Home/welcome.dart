@@ -29,13 +29,34 @@ class WelcomeScreen extends StatelessWidget {
         ),
       ],
     ),
-    body: Center(
-      child: Text(
-        'Welcome',
-        style: TextStyle(fontSize: 30),
-      ),
-    ),
-  );
+ body: Center(
+     child: Column(
+       mainAxisAlignment: MainAxisAlignment.center,
+       children: <Widget>[
+         Text(
+           'Welcome',
+           style: TextStyle(fontSize: 30),
+         ),
+         SizedBox(height: 20), // Add some space between the text and the buttons
+         ElevatedButton(
+           onPressed: (){
+             // Navigate to the login screen
+             Navigator.pushNamed(context, '/authscreen');
+           },
+           child: Text('Login'),
+         ),
+         SizedBox(height: 20), // Add some space between the buttons
+         ElevatedButton(
+           onPressed: (){
+             // Navigate to the register screen
+             Navigator.pushNamed(context, '/authscreen');
+           },
+           child: Text('Register'),
+         ),
+       ],
+     ),
+   ),
+ );
  }
 }
 

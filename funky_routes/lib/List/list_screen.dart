@@ -19,6 +19,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 class ListScreen extends StatelessWidget{
   final String url = 'http://10.0.2.2:5000/get_houses';
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   Future<List<String>> fetchRoutes() async{
     final response = await http.get(Uri.parse(url));
     if(response.statusCode == 200){
@@ -39,8 +41,10 @@ Widget build(BuildContext context){
        IconButton(
          icon: Icon(Icons.exit_to_app), // Use an appropriate icon
          onPressed: () {
+         FirebaseAuth.instance.signOut();
+         Navigator.pushNamed(context, '/welcomescreen');
            // Use this to Log Out user
-           FirebaseAuth.instance.signOut();
+           
          },
        ),
      ],
