@@ -9,6 +9,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:funky_routes/Home/auth.dart';
 
 
+
+
+
+
+
+
+//fetch sign in methods. check email first then go to sign in or register
+
+
+
+
+
+
 class AuthScreen extends StatefulWidget{
   const AuthScreen({super.key});
 
@@ -28,22 +41,23 @@ class _AuthScreenState extends State<AuthScreen>{
     //Use this to store user inputs
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
-    handleSubmit() async {
+    handleSubmit(email, password) async {
         //Validate user inputs using formkey
         if (_formKey.currentState!.validate()) {
             //Get inputs from the controllers
-            final email = _emailController.value.text;
-            final password = _passwordController.value.text;
-
+          
+          // final email = _emailController.value.text;
+          // final password = _passwordController.value.text;
             try{
-              await _auth.signInWithEmailAndPassword(email, password);
+              await _auth.registerWithEmailAndPassword(email, password);
 
             } on FirebaseAuthException catch (e){
               if(e.code == 'user-not-found'){
-                await _auth.registerWithEmailAndPassword(email);
-              } else{
-                print(e);
-              }
+              //   await _auth.registerWithEmailAndPassword(email, password);
+              // } else{
+               print(e);
+              // }
+            }
             }
         }
     }
@@ -95,7 +109,8 @@ class _AuthScreenState extends State<AuthScreen>{
             ElevatedButton(
               onPressed: () {
                 String email = _emailController.text;
-                handleSubmit();
+                String password = _passwordController.text;
+                handleSubmit(email, password);
                 //navigate to the /DriveList
                 Navigator.push(
                   context,
