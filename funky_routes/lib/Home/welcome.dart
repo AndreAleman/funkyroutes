@@ -43,15 +43,23 @@ class WelcomeScreen extends StatelessWidget {
              // Navigate to the login screen
              Navigator.pushNamed(context, '/authscreen');
            },
-           child: Text('Login'),
+           child: Text('Continue with Email'),
          ),
          SizedBox(height: 20), // Add some space between the buttons
          ElevatedButton(
            onPressed: (){
              // Navigate to the register screen
-             Navigator.pushNamed(context, '/authscreen');
+             Navigator.pushNamed(context, '/registrationscreen');
            },
-           child: Text('Register'),
+           child: Text('Continue with Apple'),
+         ),
+        SizedBox(height: 20),
+        ElevatedButton(
+           onPressed: (){
+             // Navigate to the register screen
+             Navigator.pushNamed(context, '/registrationscreen');
+           },
+           child: Text('Continue with Google'),
          ),
        ],
      ),

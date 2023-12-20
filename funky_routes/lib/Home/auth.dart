@@ -1,98 +1,64 @@
-// Import Flutter's Material Design widgets
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:funky_routes/firebase_options.dart';
-import 'package:funky_routes/database/user_info.dart';
-import 'package:funky_routes/location/location.dart';
-import 'package:funky_routes/routes.dart';
-import 'package:funky_routes/List/list_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:email_validator/email_validator.dart';
 
-// Define a new class Auth
 class Auth {
- // Initialize a FirebaseAuth instance
  final FirebaseAuth _auth = FirebaseAuth.instance;
 
- // Define a method to register a new user with email and password
- Future<void> registerWithEmailAndPassword(String email, password) 
+ Future<void> registerWithEmailAndPassword(String email, password) async {
+   try {
+     final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+       email: email,
+       password: password,
+     );
 
-   async{  
-      try {
-        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-
-        CollectionReference users = FirebaseFirestore.instance.collection('Users');
-        return users
-          .add({
-            'Email': email,
-            'Home' : ''
-          })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
-
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
-        } else if (e.code == 'email-already-in-use') {
-          print('The account already exists for that email.');
-          signInWithEmailAndPassword(email, password);
-        }
-      } catch (e) {
-        print(e);
-      }
-
-
-
-
-
-
-    // print('fffffffffffff in the register');
-    //  // Try to register the user
-    //  try{
-
-    //  } on FirebaseAuthException catch(e){
-    //    // If there's an error, check the error code
-    //    if(e.code == 'weak-password'){
-    //      // If the password is too weak, print an error message
-    //      print('This password is too weak');
-    //    } else if (e.code == 'email-already-in-use'){
-    //        // If the email is already in use, print an error message
-    //        print('The account already exists for that email.');
-    //    }
-    //  } catch(e){
-    //    // If the error is not a FirebaseAuthException, print the error
-    //    print(e);
-    //  }
+     CollectionReference users = FirebaseFirestore.instance.collection('Users');
+     return users
+       .add({
+         'Email': email,
+         'Home' : ''
+       })
+     .then((value) => print("User Added"))
+     .catchError((error) => print("Failed to add user: $error"));
+     
+   } on FirebaseAuthException catch (e) {
+     if (e.code == 'weak-password') {
+       print('The password provided is too weak.');
+     } else if (e.code == 'email-already-in-use') {
+       print('The account already exists for that email.');
+       signInWithEmailAndPassword(email, password);
+     }
+   } catch (e) {
+     print(e);
    }
-
- // Define a method to sign in an existing user with email and password
-Future<void> signInWithEmailAndPassword(String email, String password) async {
- // Try to sign in the user
- print('asdfasdfasdfasdf in the sign in');
- try {
-   // Use FirebaseAuth to sign in the user with email and password
-   final userCredential = await _auth.signInWithEmailAndPassword(
-     email: email,
-     password: password,
-   );
-   print('User signed in: ${userCredential.user?.uid}');
- } on FirebaseAuthException catch (e) {
-   // If there's an error, check the error code
-   if (e.code == 'user-not-found') {
-     // If the user is not found, print an error message
-     print('No user found for that email.');
-   } else if (e.code == 'wrong-password') {
-     // If the password is wrong, print an error message
-     print('Wrong password provided for that user.');
-   }
- } catch (e) {
-   // If the error is not a FirebaseAuthException, print the error
-   print(e);
  }
-}
+
+ Future<void> signInWithEmailAndPassword(String email, String password) async {
+   try {
+     final userCredential = await _auth.signInWithEmailAndPassword(
+       email: email,
+       password: password,
+     );
+     print('User signed in: ${userCredential.user?.uid}');
+   } on FirebaseAuthException catch (e) {
+     if (e.code == 'user-not-found') {
+       print('No user found for that email.');
+     } else if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+       print('Wrong password provided for that user.');
+       throw Exception('Wrong password provided for that user');
+     }
+   } catch (e) {
+     print(e);
+   }
+ }
+
+
+ Future<void> signOut() async {
+  await _auth.signOut();
+ // _isLogin = false; // Set _isLogin to false when the user signs out
+ }
 
 
 }

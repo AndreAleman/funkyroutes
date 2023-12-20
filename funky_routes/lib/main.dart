@@ -6,7 +6,7 @@ import 'package:funky_routes/database/user_info.dart';
 import 'package:funky_routes/location/location.dart';
 import 'package:funky_routes/routes.dart';
 import 'package:funky_routes/List/list_screen.dart';
-import 'package:funky_routes/Home/login.dart';
+import 'package:funky_routes/Home/authscreen.dart';
 import 'package:funky_routes/Home/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -34,10 +34,20 @@ void main() async {
 
 
 
-//changing this line
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
  const MyApp({Key? key});
+
+ @override
+ _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+ @override
+ void initState() {
+  super.initState();
+  FirebaseAuth.instance.signOut();
+ }
 
  @override
  Widget build(BuildContext context) {

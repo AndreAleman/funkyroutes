@@ -10,7 +10,7 @@ import 'package:funky_routes/database/user_info.dart';
 import 'package:funky_routes/location/location.dart';
 import 'package:funky_routes/routes.dart';
 import 'package:funky_routes/List/list_screen.dart';
-import 'package:funky_routes/Home/login.dart';
+import 'package:funky_routes/Home/authscreen.dart';
 import 'package:funky_routes/Home/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -18,6 +18,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class ListScreen extends StatelessWidget{
   final String url = 'http://10.0.2.2:5000/get_houses';
+  final String listTitle;
+  ListScreen({Key? key, required this.listTitle}) : super(key: key);
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -36,12 +38,12 @@ class ListScreen extends StatelessWidget{
 Widget build(BuildContext context){
  return Scaffold(
    appBar: AppBar(
-     title: Text('Your Title'),
+     title: Text(listTitle),
      actions: <Widget>[
        IconButton(
          icon: Icon(Icons.exit_to_app), // Use an appropriate icon
          onPressed: () {
-         FirebaseAuth.instance.signOut();
+         auth.signOut();
          Navigator.pushNamed(context, '/welcomescreen');
            // Use this to Log Out user
            
