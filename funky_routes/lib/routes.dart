@@ -3,6 +3,7 @@ import 'package:funky_routes/Home/welcome.dart';
 import 'package:funky_routes/List/list_screen.dart';
 import 'package:funky_routes/Home/authscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:funky_routes/Home/regscreen.dart';
 
 
 
@@ -17,8 +18,8 @@ var appRoutes = {
      }
    },
  ),
- '/authscreen': (context) => AuthScreen(),
- '/DriveList': (context) => ListScreen(listTitle: 'base'),
+  '/authscreen': (context) => AuthScreen(),
+  '/DriveList': (context) => ListScreen(listTitle: 'base'),
   '/welcomescreen': (context) => WelcomeScreen(),
-  //'/registrationscreen': (context) => RegistrationScreen(),
+  '/regscreen': (context) => RegScreen(),
 };

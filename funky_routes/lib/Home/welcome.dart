@@ -13,7 +13,16 @@ class MyApp extends StatelessWidget {
  }
 }
 
+ class CustomSpacer extends StatelessWidget {
+   @override
+   Widget build(BuildContext context) {
+     return SizedBox(height: 10);
+   }
+ }
+
 class WelcomeScreen extends StatelessWidget {
+
+ 
  @override
  Widget build(BuildContext context) {
   return Scaffold(
@@ -33,33 +42,41 @@ class WelcomeScreen extends StatelessWidget {
      child: Column(
        mainAxisAlignment: MainAxisAlignment.center,
        children: <Widget>[
-         Text(
+        const Text(
            'Welcome',
            style: TextStyle(fontSize: 30),
          ),
-         SizedBox(height: 20), // Add some space between the text and the buttons
+         CustomSpacer(),
+         ElevatedButton(
+           onPressed: (){
+             // Navigate to the login screen
+             Navigator.pushNamed(context, '/regscreen');
+           },
+           child: const Text('Register'),
+         ), // Add some space between the text and the buttons
+         CustomSpacer(),
          ElevatedButton(
            onPressed: (){
              // Navigate to the login screen
              Navigator.pushNamed(context, '/authscreen');
            },
-           child: Text('Continue with Email'),
+           child: const Text('Continue with Email'),
          ),
-         SizedBox(height: 20), // Add some space between the buttons
+         CustomSpacer(), // Add some space between the buttons
          ElevatedButton(
            onPressed: (){
              // Navigate to the register screen
              Navigator.pushNamed(context, '/registrationscreen');
            },
-           child: Text('Continue with Apple'),
+           child: const Text('Continue with Apple'),
          ),
-        SizedBox(height: 20),
+        CustomSpacer(),
         ElevatedButton(
            onPressed: (){
              // Navigate to the register screen
              Navigator.pushNamed(context, '/registrationscreen');
            },
-           child: Text('Continue with Google'),
+           child: const Text('Continue with Google'),
          ),
        ],
      ),
