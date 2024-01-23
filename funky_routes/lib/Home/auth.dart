@@ -8,12 +8,13 @@ class Auth {
  final FirebaseAuth _auth = FirebaseAuth.instance;
 
  Future<void> registerWithEmailAndPassword(String email, password) async {
+   print('in registerrrrrrrr');
    try {
-     final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+     final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
        email: email,
        password: password,
      );
-
+      print('made ittttttttt');
      CollectionReference users = FirebaseFirestore.instance.collection('Users');
      return users
        .add({
@@ -36,6 +37,7 @@ class Auth {
  }
 
  Future<void> signInWithEmailAndPassword(String email, String password) async {
+   print('in sign innnnnnnn');
    try {
      final userCredential = await _auth.signInWithEmailAndPassword(
        email: email,
@@ -45,9 +47,11 @@ class Auth {
    } on FirebaseAuthException catch (e) {
      if (e.code == 'user-not-found') {
        print('No user found for that email.');
+        registerWithEmailAndPassword(email, password);
      } else if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
-       print('Wrong password provided for that user.');
-       throw Exception('Wrong password provided for that user');
+       print('Wrong password provided for that userrrrrr.');
+        registerWithEmailAndPassword(email, password);
+       //throw Exception('Wrong password provided for that user throwwwww');
      }
    } catch (e) {
      print(e);

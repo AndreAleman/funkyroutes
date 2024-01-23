@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:funky_routes/List/list_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
@@ -21,7 +24,7 @@ class _AuthScreenState extends State<AuthScreen>{
  Widget build(BuildContext context){
    return Scaffold(
      appBar: AppBar(
-       title: Text('Auth Screen'),
+       title: const Text('Auth Screen'),
      ),
      body: Padding(
        padding: const EdgeInsets.all(16.0),
@@ -38,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen>{
                 }
                 return null;
                },
-               decoration: InputDecoration(
+               decoration: const InputDecoration(
                 hintText: 'Email',
                ),
              ),
@@ -51,17 +54,17 @@ class _AuthScreenState extends State<AuthScreen>{
                 }
                 return null;
                },
-               decoration: InputDecoration(
+               decoration: const InputDecoration(
                 hintText: 'Password',
                ),
              ),
-             SizedBox(height: 16.0),
+             const SizedBox(height: 16.0),
             ElevatedButton(
             onPressed: () async {
               String email = _emailController.text;
               String password = _passwordController.text;
               try {
-                String result = await _authViewModel.handleSubmit(email, password);
+                String result = await _authViewModel.handleSubmit(email, password, context);
                 Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ListScreen(listTitle: result)));
               } catch (e) {
@@ -69,7 +72,7 @@ class _AuthScreenState extends State<AuthScreen>{
               }
             },
             //Conditionally show the button label
-            child: Text('Login'),
+            child: const Text('Login'),
             ),
            ]),
        )
