@@ -3,9 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Auth {
  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
+
+ signInWithGoogle() async{
+  //begin interactive sign in process
+  final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+  //obtain auth details from request
+
+  final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+  //create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: gAuth.accessToken,
+    idToken: gAuth.idToken,
+  );
+  //use credential to sign in
+  return await FirebaseAuth.instance.signInWithCredential(credential);
+ }
 
  Future<void> registerWithEmailAndPassword(String email, password) async {
    print('in registerrrrrrrr');

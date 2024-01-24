@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'auth.dart';
 
 void main() {
  runApp(MyApp());
@@ -73,6 +74,7 @@ class WelcomeScreen extends StatelessWidget {
         CustomSpacer(),
         ElevatedButton(
            onPressed: (){
+            Auth().signInWithGoogle();
              // Navigate to the register screen
              Navigator.pushNamed(context, '/registrationscreen');
            },
